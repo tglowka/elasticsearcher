@@ -16,6 +16,7 @@
 		<RepositoryUrl>https://github.com/tglowka/elasticsearcher/tree/master</RepositoryUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>Elasticsearch, Viewer, Searcher, Query</PackageTags>
+		<PackageVersion>1.0.1</PackageVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
