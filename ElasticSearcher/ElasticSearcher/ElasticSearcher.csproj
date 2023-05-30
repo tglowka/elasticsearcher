@@ -12,10 +12,10 @@
 		<PackageId>BaldSolutions.ElasticSearcher</PackageId>
 		<Authors>tglowka</Authors>
 		<Company>tglowka</Company>
-		<Description>The application for reading data and information from the Elasticsearch.</Description>
+		<Description>The application for querying the Elasticsearch.</Description>
 		<RepositoryUrl>https://github.com/tglowka/elasticsearcher/tree/master</RepositoryUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageTags>Elasticsearch, Viewer, Searcher</PackageTags>
+		<PackageTags>Elasticsearch, Viewer, Searcher, Query</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
