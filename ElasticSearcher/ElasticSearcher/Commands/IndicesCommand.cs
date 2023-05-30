@@ -14,11 +14,11 @@ public class IndicesCommand : Command
 
     public IndicesCommand() : base("indices", "Get indices info.")
     {
-        var indexName = new IndexNameArg();
+        var indicesNames = new IndicesNamesArg();
         var operation = new OperationArg().FromAmong(PossibleOperations);
         AddArgument(operation);
-        AddArgument(indexName);
-        this.SetHandler(SetHandler, operation, indexName, GlobalOptions.UriOption);
+        AddArgument(indicesNames);
+        this.SetHandler(SetHandler, operation, indicesNames, GlobalOptions.UriOption);
     }
 
     private static async Task SetHandler(string operation, string indexName, Uri uri)
@@ -91,9 +91,9 @@ internal class OperationArg : Argument<string>
     }
 }
 
-internal class IndexNameArg : Argument<string>
+internal class IndicesNamesArg : Argument<string>
 {
-    public IndexNameArg() : base("indices names",
+    public IndicesNamesArg() : base("indices names",
         "Name of the: one index, comma-separated indices or index name pattern (wildcard possible).")
     {
     }

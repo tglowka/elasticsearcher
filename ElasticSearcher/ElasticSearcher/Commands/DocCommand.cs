@@ -56,3 +56,10 @@ internal class IdArg : Argument<string>
     {
     }
 }
+
+internal class IndexNameArg : Argument<string>
+{
+    public IndexNameArg() : base("index name", "Index name.")
+    {
+    }
+}
