@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElasticSearcher", "ElasticSearcher\ElasticSearcher.csproj", "{88CA9EBE-5F3F-4A8B-AD21-9FBAE4C63226}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElasticSearcher.Tests", "ElasticSearcher.Tests\ElasticSearcher.Tests.csproj", "{B66BB239-47A3-4115-9498-C5F7E4AA1C21}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{88CA9EBE-5F3F-4A8B-AD21-9FBAE4C63226}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88CA9EBE-5F3F-4A8B-AD21-9FBAE4C63226}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88CA9EBE-5F3F-4A8B-AD21-9FBAE4C63226}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88CA9EBE-5F3F-4A8B-AD21-9FBAE4C63226}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B66BB239-47A3-4115-9498-C5F7E4AA1C21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B66BB239-47A3-4115-9498-C5F7E4AA1C21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B66BB239-47A3-4115-9498-C5F7E4AA1C21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B66BB239-47A3-4115-9498-C5F7E4AA1C21}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
