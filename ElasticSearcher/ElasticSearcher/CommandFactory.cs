@@ -11,6 +11,7 @@ public class CommandFactory
         rootCommand.AddCommand(new ClusterCommand());
         rootCommand.AddCommand(new IndicesCommand());
         rootCommand.AddCommand(new DocCommand());
+        rootCommand.AddCommand(new InteractiveCommand());
 
         return rootCommand;
     }

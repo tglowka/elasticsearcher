@@ -1,13 +1,18 @@
 ﻿using System.CommandLine;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.IndexManagement;
+using ElasticSearcher.Abstractions;
 using ElasticSearcher.Options;
 
 namespace ElasticSearcher.Commands;
 
-public class IndicesCommand : Command
+public class IndicesCommand : EssCommand
 {
-    public static readonly string[] PossibleOperations =
+    private const string _name = "indices";
+    private const string _description = "Get indices info.";
+
+    public override string CLIName => _name;
+    public override string[] CLIPossibleOperations => new[] 
     {
         "stats", "template", "exists", "get", "get-aliases", "refresh"
     };
@@ -15,7 +20,7 @@ public class IndicesCommand : Command
     public IndicesCommand() : base("indices", "Get indices info.")
     {
         var indicesNames = new IndicesNamesArg();
-        var operation = new OperationArg().FromAmong(PossibleOperations);
+        var operation = new OperationArg().FromAmong(CLIPossibleOperations);
         AddArgument(operation);
         AddArgument(indicesNames);
         this.SetHandler(SetHandler, operation, indicesNames, GlobalOptions.UriOption);

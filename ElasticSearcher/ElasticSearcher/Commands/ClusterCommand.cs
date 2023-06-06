@@ -1,18 +1,24 @@
 ﻿using System.CommandLine;
+using ElasticSearcher.Abstractions;
 using ElasticSearcher.Options;
 
 namespace ElasticSearcher.Commands;
 
-public class ClusterCommand : Command
+public class ClusterCommand : EssCommand
 {
-    public static readonly string[] PossibleOperations =
+    private const string _name = "cluster";
+    private const string _description = "Get cluster info.";
+
+    public override string CLIName => _name;
+
+    public override string[] CLIPossibleOperations => new[]
     {
         "health", "pending-tasks", "get-settings"
     };
-
-    public ClusterCommand() : base("cluster", "Get cluster info.")
+    
+    public ClusterCommand() : base(_name, _description)
     {
-        var operation = new OperationArg().FromAmong(PossibleOperations);
+        var operation = new OperationArg().FromAmong(CLIPossibleOperations);
         AddArgument(operation);
         this.SetHandler(SetHandler, operation, GlobalOptions.UriOption);
     }

@@ -28,7 +28,7 @@ public class CommandsTests : IDisposable
     }
 
     public static IEnumerable<object[]> ClusterOperations =>
-        ClusterCommand.PossibleOperations.Select(x => new object[] { x });
+        new ClusterCommand().CLIPossibleOperations.Select(x => new object[] { x });
 
     [Fact]
     public async Task Cluster_NotPossibleOperation_Failed()
