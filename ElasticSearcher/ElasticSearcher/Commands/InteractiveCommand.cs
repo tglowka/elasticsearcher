@@ -1,5 +1,6 @@
 ﻿using System.CommandLine;
 using ElasticSearcher.Abstractions;
+using ElasticSearcher.AutoCompletion;
 using ElasticSearcher.Options;
 
 namespace ElasticSearcher.Commands;
@@ -25,8 +26,8 @@ internal class InteractiveCommand : EssCommand
 
         while (true)
         {
-            string input = ReadLine.Read("ess>>> ");
-            await CommandFactory.CreateRootCommand().InvokeAsync(input);
+            string input = ReadLine.Read($"ess ({Context.Uri})>>> ");
+            await CommandFactory.CreateRootCommandInteractive().InvokeAsync(input);
         }
     }
 }

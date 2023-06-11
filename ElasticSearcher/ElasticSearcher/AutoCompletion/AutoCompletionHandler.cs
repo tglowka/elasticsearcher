@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using ElasticSearcher.Abstractions;
 
-namespace ElasticSearcher.Commands;
+namespace ElasticSearcher.AutoCompletion;
 
 internal class AutoCompletionHandler : IAutoCompleteHandler
 {
@@ -17,7 +17,7 @@ internal class AutoCompletionHandler : IAutoCompleteHandler
             .Where(x => x.IsSubclassOf(typeof(EssCommand)))
             .Select(x =>
             {
-                var obj = (Activator.CreateInstance(x.AsType()) as EssCommand);
+                var obj = Activator.CreateInstance(x.AsType()) as EssCommand;
                 var name = obj.CLIName;
                 var operations = obj.CLIPossibleOperations;
                 //var results = operations.Select(op => $"{name} {op}");
@@ -39,7 +39,7 @@ internal class AutoCompletionHandler : IAutoCompleteHandler
         var IsSpaceEnd = text.LastOrDefault() == ' ';
         if (IsSpaceEnd)
         {
-            tokens = tokens.Concat(new[] {string.Empty}).ToArray();
+            tokens = tokens.Concat(new[] { string.Empty }).ToArray();
         }
 
         //one word without leading trailing

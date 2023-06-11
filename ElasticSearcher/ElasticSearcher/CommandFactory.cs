@@ -15,4 +15,16 @@ public class CommandFactory
 
         return rootCommand;
     }
+    
+    public static ElasticSearcherRootCommand CreateRootCommandInteractive()
+    {
+        var rootCommand = new ElasticSearcherRootCommand();
+        rootCommand.AddCommand(new PingCommand());
+        rootCommand.AddCommand(new ClusterCommand());
+        rootCommand.AddCommand(new IndicesCommand());
+        rootCommand.AddCommand(new DocCommand());
+        rootCommand.AddCommand(new SetConnectionCommand());
+
+        return rootCommand;
+    }
 }

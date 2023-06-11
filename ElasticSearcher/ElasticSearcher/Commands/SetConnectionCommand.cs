@@ -1,15 +1,39 @@
-using System.CommandLine;
+﻿using System.CommandLine;
 using System.CommandLine.Parsing;
+using ElasticSearcher.Abstractions;
+using ElasticSearcher.Options;
 
-namespace ElasticSearcher.Options;
+namespace ElasticSearcher.Commands;
 
-public class UriOption : Option<Uri>
+internal class SetConnectionCommand : EssCommand
 {
-    public UriOption() : base(
-        name: "--uri",
-        parseArgument: Parse,
+    private const string _name = "set-connection";
+    private const string _description = "Set the connection URI to the Elasticsearch.";
+
+    public override string CLIName => _name;
+    public override string[] CLIPossibleOperations => Array.Empty<string>();
+
+    public SetConnectionCommand() : base(_name, _description)
+    {
+        var uriArg = new UriArgument();
+        AddArgument(uriArg);
+        this.SetHandler(SetHandler, uriArg);
+    }
+
+    private static void SetHandler(Uri uri)
+    {
+        Context.SetClientInteractive(uri);
+    }
+}
+
+public class UriArgument : Argument<Uri>
+{
+    public UriArgument() : base(
+        name: "uri",
+        parse: Parse,
         isDefault: true,
-        description: "URI")
+        description: "URI"
+    )
     {
     }
 
@@ -19,7 +43,8 @@ public class UriOption : Option<Uri>
         {
             case []:
                 {
-                    return new Uri("http://localhost:9200");
+                    result.ErrorMessage = "URI cannot be empty.";
+                    return null!;
                 }
             case [var uriString]:
                 {
