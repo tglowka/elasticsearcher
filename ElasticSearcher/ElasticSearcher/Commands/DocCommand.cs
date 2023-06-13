@@ -33,7 +33,7 @@ public class DocCommand : EssCommand
 
     private static async Task SetHandler(string operation, string indexName, string id, Uri uri)
     {
-        var client = Context.GetClient(uri);
+        var client = ConnectionContext.GetClient(uri);
         switch (operation)
         {
             case "search":
@@ -59,7 +59,7 @@ public class DocCommand : EssCommand
 
     private async Task<string[]> GetCLIPossibleArguments()
     {
-        var indices = await Context.GetInteractiveClient().Indices.GetAsync("_all");
+        var indices = await ConnectionContext.GetInteractiveClient().Indices.GetAsync("_all");
 
         if (indices.IsSuccess())
         {

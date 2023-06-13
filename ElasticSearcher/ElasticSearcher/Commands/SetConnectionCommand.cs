@@ -27,7 +27,7 @@ internal class SetConnectionCommand : EssCommand
         
         if(result.IsValidResponse)
         {
-            Context.SetClientInteractive(testClient , uri);
+            ConnectionContext.SetClientInteractive(testClient , uri);
         }
         else
         {

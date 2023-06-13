@@ -25,7 +25,7 @@ public class ClusterCommand : EssCommand
 
     private static async Task SetHandler(string operation, Uri uri)
     {
-        var client = Context.GetClient(uri);
+        var client = ConnectionContext.GetClient(uri);
         switch (operation)
         {
             case "health":

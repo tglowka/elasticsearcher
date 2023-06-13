@@ -28,11 +28,11 @@ internal class InteractiveCommand : EssCommand
         {
             ReadLine.AutoCompletionHandler = new AutoCompletionHandler();
 
-            Context.SetClientInteractive(testClient, uri);
+            ConnectionContext.SetClientInteractive(testClient, uri);
 
             while (true)
             {
-                string input = ReadLine.Read($"ess ({Context.GetInteractiveUriString()})>>> ");
+                string input = ReadLine.Read($"ess ({ConnectionContext.GetInteractiveUriString()})>>> ");
                 await CommandFactory.CreateRootCommandInteractive().InvokeAsync(input);
             }
         }

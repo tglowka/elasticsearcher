@@ -28,7 +28,7 @@ public class IndicesCommand : EssCommand
 
     private static async Task SetHandler(string operation, string indexName, Uri uri)
     {
-        var client = Context.GetClient(uri);
+        var client = ConnectionContext.GetClient(uri);
 
         switch (operation)
         {

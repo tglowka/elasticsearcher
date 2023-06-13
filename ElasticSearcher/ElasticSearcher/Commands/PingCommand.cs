@@ -19,7 +19,7 @@ internal class PingCommand : EssCommand
 
     private static async Task SetHandler(Uri uri)
     {
-        var client = Context.GetClient(uri);
+        var client = ConnectionContext.GetClient(uri);
         await OperationsHandler.HandleOperationAsync(client.PingAsync, x => x.IsValidResponse);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace ElasticSearcher;
 
-public class Context
+public class ConnectionContext
 {
     private static readonly Dictionary<string, ElasticsearchClient> Clients = new();
     private static ElasticsearchClient? InteractiveClient;
