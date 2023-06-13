@@ -15,7 +15,7 @@ ess --help
 ```
 
 and you should see:
-![image](https://github.com/tglowka/elasticsearcher/assets/38429856/7a41f257-c004-49ac-bf13-d226ec9002c5)
+![image](https://github.com/tglowka/elasticsearcher/assets/38429856/2a7699de-db5e-4211-af01-5e82af7524d5)
 Each subsequent command (e.g. `ping` or `doc`) also accepts `--help` option for further explanation:
 
 ```
