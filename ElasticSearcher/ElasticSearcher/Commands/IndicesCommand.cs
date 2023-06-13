@@ -1,13 +1,18 @@
 ﻿using System.CommandLine;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.IndexManagement;
+using ElasticSearcher.Abstractions;
 using ElasticSearcher.Options;
 
 namespace ElasticSearcher.Commands;
 
-public class IndicesCommand : Command
+public class IndicesCommand : EssCommand
 {
-    public static readonly string[] PossibleOperations =
+    private const string _name = "indices";
+    private const string _description = "Get indices info.";
+
+    public override string CLICommand => _name;
+    public override string[] CLIPossibleOperations => new[] 
     {
         "stats", "template", "exists", "get", "get-aliases", "refresh"
     };
@@ -15,7 +20,7 @@ public class IndicesCommand : Command
     public IndicesCommand() : base("indices", "Get indices info.")
     {
         var indicesNames = new IndicesNamesArg();
-        var operation = new OperationArg().FromAmong(PossibleOperations);
+        var operation = new OperationArg().FromAmong(CLIPossibleOperations);
         AddArgument(operation);
         AddArgument(indicesNames);
         this.SetHandler(SetHandler, operation, indicesNames, GlobalOptions.UriOption);
@@ -23,34 +28,34 @@ public class IndicesCommand : Command
 
     private static async Task SetHandler(string operation, string indexName, Uri uri)
     {
-        Context.SetClient(uri);
+        var client = ConnectionContext.GetClient(uri);
 
         switch (operation)
         {
             case "stats":
                 await OperationsHandler.HandleOperationAsync(
-                    Context.Client.Indices.StatsAsync,
+                    client.Indices.StatsAsync,
                     new IndicesStatsRequest(indices: indexName),
                     x => x
                 );
                 break;
             case "template":
                 await OperationsHandler.HandleOperationAsync(
-                    Context.Client.Indices.GetTemplateAsync,
+                    client.Indices.GetTemplateAsync,
                     new GetTemplateRequest(name: indexName),
                     x => x
                 );
                 break;
             case "exists":
                 await OperationsHandler.HandleOperationAsync(
-                    Context.Client.Indices.ExistsAsync,
+                    client.Indices.ExistsAsync,
                     new Elastic.Clients.Elasticsearch.IndexManagement.ExistsRequest(indices: indexName),
                     x => x
                 );
                 break;
             case "get":
                 await OperationsHandler.HandleOperationAsync(
-                    Context.Client.Indices.GetAsync,
+                    client.Indices.GetAsync,
                     (Indices)indexName,
                     x => x,
                     x => ConsoleExtension.PrintCollection(x.Indices, s => s.Key)
@@ -58,7 +63,7 @@ public class IndicesCommand : Command
                 break;
             case "get-aliases":
                 await OperationsHandler.HandleOperationAsync(
-                    Context.Client.Indices.GetAsync,
+                    client.Indices.GetAsync,
                     (Indices)indexName,
                     x => x,
                     x => ConsoleExtension.PrintNestedCollection
@@ -72,7 +77,7 @@ public class IndicesCommand : Command
                 break;
             case "refresh":
                 await OperationsHandler.HandleOperationAsync(
-                    Context.Client.Indices.RefreshAsync,
+                    client.Indices.RefreshAsync,
                     (Indices)indexName,
                     x => x
                 );
@@ -84,14 +89,14 @@ public class IndicesCommand : Command
     }
 }
 
-internal class OperationArg : Argument<string>
+public class OperationArg : Argument<string>
 {
     public OperationArg() : base("operation", "Name of the operation.")
     {
     }
 }
 
-internal class IndicesNamesArg : Argument<string>
+public class IndicesNamesArg : Argument<string>
 {
     public IndicesNamesArg() : base("indices names",
         "Name of the: one index, comma-separated indices or index name pattern (wildcard possible).")
