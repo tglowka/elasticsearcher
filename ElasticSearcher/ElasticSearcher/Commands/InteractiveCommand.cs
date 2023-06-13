@@ -1,4 +1,5 @@
 ﻿using System.CommandLine;
+using Elastic.Clients.Elasticsearch;
 using ElasticSearcher.Abstractions;
 using ElasticSearcher.AutoCompletion;
 using ElasticSearcher.Options;
@@ -10,7 +11,7 @@ internal class InteractiveCommand : EssCommand
     private const string _name = "in";
     private const string _description = "Start interactive mode";
 
-    public override string CLIName => _name;
+    public override string CLICommand => _name;
     public override string[] CLIPossibleOperations => Array.Empty<string>();
 
     public InteractiveCommand() : base(_name, _description)
@@ -20,14 +21,24 @@ internal class InteractiveCommand : EssCommand
 
     private static async Task SetHandler(Uri uri)
     {
-        ReadLine.AutoCompletionHandler = new AutoCompletionHandler();
+        var testClient = new ElasticsearchClient(uri);
+        var result = await testClient.PingAsync();
 
-        Context.SetClient(uri);
-
-        while (true)
+        if (result.IsValidResponse)
         {
-            string input = ReadLine.Read($"ess ({Context.Uri})>>> ");
-            await CommandFactory.CreateRootCommandInteractive().InvokeAsync(input);
+            ReadLine.AutoCompletionHandler = new AutoCompletionHandler();
+
+            Context.SetClientInteractive(testClient, uri);
+
+            while (true)
+            {
+                string input = ReadLine.Read($"ess ({Context.GetInteractiveUriString()})>>> ");
+                await CommandFactory.CreateRootCommandInteractive().InvokeAsync(input);
+            }
+        }
+        else
+        {
+            ConsoleExtension.WriteError("The Elasticsearch node is not reachable for given URI.");
         }
     }
 }

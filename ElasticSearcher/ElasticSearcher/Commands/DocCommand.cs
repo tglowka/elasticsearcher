@@ -10,11 +10,14 @@ public class DocCommand : EssCommand
     private const string _name = "doc";
     private const string _description = "Operations related to the documents.";
 
-    public override string CLIName => _name;
+    public override string CLICommand => _name;
     public override string[] CLIPossibleOperations => new[]
     {
         "search", "exists"
     };
+
+    public override async Task<string[]> CLIGetDynamicArguments() 
+        => await GetCLIPossibleArguments();
 
     public DocCommand() : base(_name, _description)
     {
@@ -30,13 +33,13 @@ public class DocCommand : EssCommand
 
     private static async Task SetHandler(string operation, string indexName, string id, Uri uri)
     {
-        Context.SetClient(uri);
+        var client = Context.GetClient(uri);
         switch (operation)
         {
             case "search":
                 {
                     await OperationsHandler.HandleOperationAsync(
-                        Context.Client.GetAsync<object>,
+                        client.GetAsync<object>,
                         (IndexName)indexName,
                         (Id)id,
                         x => x.Source);
@@ -45,13 +48,25 @@ public class DocCommand : EssCommand
             case "exists":
                 {
                     await OperationsHandler.HandleOperationAsync(
-                        Context.Client.ExistsAsync,
+                        client.ExistsAsync,
                         (IndexName)indexName,
                         (Id)id,
                         x => x.Exists);
                     break;
                 }
         }
+    }
+
+    private async Task<string[]> GetCLIPossibleArguments()
+    {
+        var indices = await Context.GetInteractiveClient().Indices.GetAsync("_all");
+
+        if (indices.IsSuccess())
+        {
+            return indices.Indices.Select(x => x.Key.ToString()).ToArray();
+        }
+
+        return Array.Empty<string>();
     }
 }
 

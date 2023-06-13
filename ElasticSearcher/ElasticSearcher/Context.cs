@@ -4,24 +4,61 @@ namespace ElasticSearcher;
 
 public class Context
 {
-    private static bool IsInteractive;
+    private static readonly Dictionary<string, ElasticsearchClient> Clients = new();
+    private static ElasticsearchClient? InteractiveClient;
+    private static bool IsInteractive => InteractiveClient is not null;
+    private static string? InteractiveUriString;
 
-    public static ElasticsearchClient Client { get; private set; }
-    public static string Uri { get; private set; }
-
-    public static void SetClient(Uri uri)
+    public static ElasticsearchClient GetInteractiveClient()
     {
-        if (!IsInteractive)
+        if (IsInteractive)
         {
-            Client = new ElasticsearchClient(uri);
-            Uri = uri.OriginalString;
+            return InteractiveClient!;
+        }
+        else
+        {
+            throw new InvalidOperationException("Cannot get interactive client when not in the interactive mode.");
         }
     }
 
-    public static void SetClientInteractive(Uri uri)
+    public static string GetInteractiveUriString()
     {
-        IsInteractive = true;
-        Client = new ElasticsearchClient(uri);
-        Uri = uri.OriginalString;
+        if (IsInteractive)
+        {
+            return InteractiveUriString!;
+        }
+        else
+        {
+            throw new InvalidOperationException("Cannot get interactive uri string when not in the interactive mode.");
+        }
+    }
+
+    public static ElasticsearchClient GetClient(Uri uri)
+    {
+        if (IsInteractive)
+        {
+            return InteractiveClient!;
+        }
+        else
+        {
+            var clientExists = Clients.TryGetValue(uri.OriginalString, out var client);
+
+            if (clientExists)
+            {
+                return client!;
+            }
+            else
+            {
+                client = new ElasticsearchClient(uri);
+                Clients.Add(uri.OriginalString, client);
+                return client;
+            }
+        }
+    }
+
+    internal static void SetClientInteractive(ElasticsearchClient client, Uri uri)
+    {
+        InteractiveClient = client;
+        InteractiveUriString = uri.OriginalString;
     }
 }

@@ -9,7 +9,7 @@ internal class PingCommand : EssCommand
     private const string _name = "ping";
     private const string _description = "Test the reachability of the Elasticsearch node.";
 
-    public override string CLIName => _name;
+    public override string CLICommand => _name;
     public override string[] CLIPossibleOperations => Array.Empty<string>();
 
     public PingCommand() : base(_name, _description)
@@ -19,7 +19,7 @@ internal class PingCommand : EssCommand
 
     private static async Task SetHandler(Uri uri)
     {
-        Context.SetClient(uri);
-        await OperationsHandler.HandleOperationAsync(Context.Client.PingAsync, x => x.IsValidResponse);
+        var client = Context.GetClient(uri);
+        await OperationsHandler.HandleOperationAsync(client.PingAsync, x => x.IsValidResponse);
     }
 }

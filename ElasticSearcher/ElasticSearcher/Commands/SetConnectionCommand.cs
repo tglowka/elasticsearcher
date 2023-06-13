@@ -1,7 +1,7 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Parsing;
+using Elastic.Clients.Elasticsearch;
 using ElasticSearcher.Abstractions;
-using ElasticSearcher.Options;
 
 namespace ElasticSearcher.Commands;
 
@@ -10,7 +10,7 @@ internal class SetConnectionCommand : EssCommand
     private const string _name = "set-connection";
     private const string _description = "Set the connection URI to the Elasticsearch.";
 
-    public override string CLIName => _name;
+    public override string CLICommand => _name;
     public override string[] CLIPossibleOperations => Array.Empty<string>();
 
     public SetConnectionCommand() : base(_name, _description)
@@ -20,9 +20,19 @@ internal class SetConnectionCommand : EssCommand
         this.SetHandler(SetHandler, uriArg);
     }
 
-    private static void SetHandler(Uri uri)
+    private static async Task SetHandler(Uri uri)
     {
-        Context.SetClientInteractive(uri);
+        var testClient = new ElasticsearchClient(uri);
+        var result = await testClient.PingAsync();
+        
+        if(result.IsValidResponse)
+        {
+            Context.SetClientInteractive(testClient , uri);
+        }
+        else
+        {
+            ConsoleExtension.WriteError("The Elasticsearch node is not reachable for given URI.");
+        }
     }
 }
 
