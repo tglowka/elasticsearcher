@@ -20,7 +20,7 @@ public class ElasticSearchFixture : IAsyncLifetime
         Fixture = new Fixture();
         RootCommand = CommandFactory.CreateRootCommand();
 
-        ConnectionContext.SetClient(new Uri("http://localhost:9200"));
+        ConnectionContext.GetClient(new Uri("http://localhost:9200"));
 
         return Task.CompletedTask;
     }

@@ -70,14 +70,14 @@ public class DocCommand : EssCommand
     }
 }
 
-internal class IdArg : Argument<string>
+public class IdArg : Argument<string>
 {
     public IdArg() : base("id", "Id of the document to search for.")
     {
     }
 }
 
-internal class IndexNameArg : Argument<string>
+public class IndexNameArg : Argument<string>
 {
     public IndexNameArg() : base("index name", "Index name.")
     {

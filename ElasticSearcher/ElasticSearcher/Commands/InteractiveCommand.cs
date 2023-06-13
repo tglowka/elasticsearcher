@@ -6,7 +6,7 @@ using ElasticSearcher.Options;
 
 namespace ElasticSearcher.Commands;
 
-internal class InteractiveCommand : EssCommand
+public class InteractiveCommand : EssCommand
 {
     private const string _name = "in";
     private const string _description = "Start interactive mode";

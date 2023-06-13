@@ -89,14 +89,14 @@ public class IndicesCommand : EssCommand
     }
 }
 
-internal class OperationArg : Argument<string>
+public class OperationArg : Argument<string>
 {
     public OperationArg() : base("operation", "Name of the operation.")
     {
     }
 }
 
-internal class IndicesNamesArg : Argument<string>
+public class IndicesNamesArg : Argument<string>
 {
     public IndicesNamesArg() : base("indices names",
         "Name of the: one index, comma-separated indices or index name pattern (wildcard possible).")

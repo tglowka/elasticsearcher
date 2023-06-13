@@ -4,7 +4,7 @@ using ElasticSearcher.Options;
 
 namespace ElasticSearcher.Commands;
 
-internal class PingCommand : EssCommand
+public class PingCommand : EssCommand
 {
     private const string _name = "ping";
     private const string _description = "Test the reachability of the Elasticsearch node.";

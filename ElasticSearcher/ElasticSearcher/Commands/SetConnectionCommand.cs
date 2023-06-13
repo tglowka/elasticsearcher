@@ -5,7 +5,7 @@ using ElasticSearcher.Abstractions;
 
 namespace ElasticSearcher.Commands;
 
-internal class SetConnectionCommand : EssCommand
+public class SetConnectionCommand : EssCommand
 {
     private const string _name = "set-connection";
     private const string _description = "Set the connection URI to the Elasticsearch.";
