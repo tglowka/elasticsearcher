@@ -1,7 +1,8 @@
 # Overview
 
 This is a repository of a CLI tool called ElasticSearcher. The main purpose of the tool is to quick-querying the Elasticsearch in order to check whether a document of a given id exists, show the document content, list all the indices for a given pattern (e.g. `tmp*`), list corresponding aliases etc. For now the tool is very limited and provides just a few commands to play with. However, I plan to add more and more commands to the tool over time and I would be greatful for any contribution.
-Important: The tool works with Elasticsearch version 8.
+
+**Important: The tool works with Elasticsearch version 8.**
 
 # Installation
 
